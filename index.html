@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+    <script>
+        // //$('Selector')
+        // //var $ = new jQeury;
+        // //document.getElementById('#todoList')
+        // //$('#todoList')
+        // $(function () {
+        //     setTimeout(function () {
+        //         alert("Wow!")
+        //     }, 5000
+        //     );
+        // });
+        var url = 'https://jsonplaceholder.typicode.com/todos';
+        function getTodo() {
+            var item = $("#item").val();
+            var todo = $("#todo");
+            var newurl = url + '/' + item;
+            $.getJSON(newurl, function (data) {
+                todo.html('');
+                todo.append('<h3>' + data.title + '</h3>');
+                todo.append('<h4>' + data.completed + '</h4>');
+                todo.append('<h5>UserID: ' + data.userId + '</h5>');
+            });
+        }
+
+        $(function () {
+            var todolist = $("#todoList");
+
+            $.getJSON(url, function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    todolist.append('<li id="todo' +
+                        data[i].id +
+                        '">' +
+                        data[i].title +
+                        '</li>');
+                    if (data[i].completed) {
+                        $("#todo" + data[i].id).css('color', 'green');
+                    } else {
+                        $("#todo" + data[i].id).css('color', 'red');
+                    }
+                    // console.log(data[i].title);
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <input id="item" type="text" placeholder="Todo Number">
+    <input type="button" value="Pick" onclick="getTodo()">
+    <div id="todo"></div>
+    <ol id="todoList"></ol>
+
+</body>
+
+</html>
